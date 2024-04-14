@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-          fontFamily: 'robotomono'),
+          fontFamily: 'Fauna'),
       debugShowCheckedModeBanner: false,
-      home: ScreenSplash(),
+      home: const ScreenSplash(),
     );
   }
 }
