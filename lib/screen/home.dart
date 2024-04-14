@@ -12,44 +12,48 @@ class Screen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 75,
-        backgroundColor: Color.fromARGB(175, 0, 0, 0),
-        shape: RoundedRectangleBorder(
+        backgroundColor: Colors.white,
+        /*shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15))),
+                bottomLeft: Radius.circular(15))),*/
         leading: Icon(
           Icons.menu_rounded,
           color: Colors.white,
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Hi, ',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                    Text(
-                      'Name',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    )
-                  ],
-                ),
-                Text(
-                  DateFormat('dd MMM yyyy').format(DateTime.now()),
-                  style: TextStyle(fontSize: 12, color: Colors.white),
-                ),
-              ],
-            ),
-          ],
+        title: Container(
+          padding: EdgeInsets.symmetric(vertical: 25),
+          color: Colors.black,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Hi, ',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      Text(
+                        'Name',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
+                  Text(
+                    DateFormat('dd MMM yyyy').format(DateTime.now()),
+                    style: TextStyle(fontSize: 12, color: Colors.white),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         actions: [
           Row(
