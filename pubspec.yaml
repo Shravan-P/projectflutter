@@ -64,13 +64,15 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets\image\clock_992700.png
-   - assets\image\4881247.jpg
-   - assets\image\BOOK1.jpg
-   - assets\image\BOOK2.jpg
-   - assets\image\BOOK3.jpg
-   - assets\image\BOOK4.jpg
-   - assets\image\BOOK5.jpg
+   - assets/image/clock_992700.png
+   - assets/image/4881247.jpg
+   - assets/image/BOOK1.jpg
+   - assets/image/BOOK2.jpg
+   - assets/image/BOOK3.jpg
+   - assets/image/BOOK4.jpg
+   - assets/image/BOOK5.jpg
+   - assets/image/profile_photo.jpg
+   
   
  
   
@@ -88,16 +90,17 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: robotomono
-       fonts:
-         - fonts/RobotoMono-Regular.ttf
+    - family: Fauna
+      fonts:
+        - asset: fonts/FaunaOne-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-      - family: lato
-        fonts:
-         - asset: fonts/Lato-Regular.ttf
+    - family: Platypi
+      fonts:
+        - asset: fonts/Platypi-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  #
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -15,11 +15,11 @@ class Screenmainhome extends StatefulWidget {
 class _ScreenmainhomeState extends State<Screenmainhome> {
   int _currentSelectedindex = 0;
   get _pages => [
-        Screenhome(),
-        Screenschedule(),
-        Screenadd(),
-        Screenprogress(),
-        Screenprofile()
+        const Screenhome(),
+        const Screenschedule(),
+        const Screenadd(),
+        const Screenprogress(),
+        const Screenprofile()
       ];
   @override
   Widget build(BuildContext context) {

@@ -9,9 +9,10 @@ class Screenhome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 75,
-        backgroundColor: Color.fromARGB(175, 0, 0, 0),
+        backgroundColor: Colors.black,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(15),
@@ -165,14 +166,14 @@ class Screenhome extends StatelessWidget {
   Padding listbook(String val, String name) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Container(
+      child: SizedBox(
         width: 120,
         child: Column(
           children: [
             SizedBox(
               height: 10,
             ),
-            Container(
+            SizedBox(
               height: 140,
               width: 90,
               child: ClipRRect(
