@@ -14,16 +14,16 @@ class Screenlogin extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 100),
+              padding: EdgeInsets.symmetric(horizontal: 70, vertical: 70),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 300,
-                        width: 300,
+                      SizedBox(
+                        height: 250,
+                        width: 250,
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           child: Image.asset(
@@ -38,13 +38,13 @@ class Screenlogin extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  Container(
-                    width: 300,
+                  SizedBox(
+                    width: 250,
                     child: Column(
                       children: [
                         loginindetails('Username', false),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         loginindetails('Password', true),
                         const SizedBox(
@@ -90,9 +90,9 @@ class Screenlogin extends StatelessWidget {
                                       builder: (context) => Screenmainhome()));
                             },
                             style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.black,
                                 fixedSize: Size(150, 50),
-                                onPrimary: Colors.white,
-                                primary: Colors.black,
                                 textStyle: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                             child: const Text('Login'),

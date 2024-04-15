@@ -179,7 +179,7 @@ class Screenhome extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(1)),
                 child: Image.asset(
-                  'image/BOOK$val.jpg',
+                  "image/BOOK$val.jpg",
                   fit: BoxFit.fill,
                 ),
               ),
