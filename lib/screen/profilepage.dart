@@ -61,12 +61,12 @@ class Screenprofile extends StatelessWidget {
 
   Container profiephoto() {
     return Container(
-      height: 400,
-      width: 300,
+      height: 300,
+      width: 200,
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(15)),
         child: Image.asset(
-          'image/profile_photo.jpg',
+          'assets/image/profile_photo.jpg',
           fit: BoxFit.cover,
         ),
       ),
