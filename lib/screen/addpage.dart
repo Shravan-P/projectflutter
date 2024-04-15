@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Screenadd extends StatefulWidget {
-  const Screenadd({super.key});
+  const Screenadd({Key? key}) : super(key: key);
 
   @override
   State<Screenadd> createState() => _ScreenaddState();
@@ -11,6 +12,7 @@ class Screenadd extends StatefulWidget {
 
 class _ScreenaddState extends State<Screenadd> {
   List<TextEditingController> listcontroller = [TextEditingController()];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -19,19 +21,22 @@ class _ScreenaddState extends State<Screenadd> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/image/TM pic 1.jpg',
-              height: 200,
+            Padding(
+              padding: const EdgeInsets.only(top: 25), // Add padding here
+              child: Image.asset(
+                'assets/image/TM pic 1.jpg',
+                height: 200,
+              ),
             ),
             SizedBox(
               height: 15,
             ),
             Text(
               'Create Your Schedule',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Platypi'),
+              style: GoogleFonts.poppins(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 15),
@@ -49,25 +54,31 @@ class _ScreenaddState extends State<Screenadd> {
                           child: TextFormField(
                             controller: listcontroller[index],
                             decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                hintText: 'task name'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              hintText: 'task name',
+                              hintStyle: GoogleFonts
+                                  .poppins(), // Poppins font for hint text
+                            ),
+                            style: GoogleFonts
+                                .poppins(), // Poppins font for input text
                           ),
                         ),
                       ),
                       GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              listcontroller[index].clear();
-                              listcontroller[index].dispose();
-                              listcontroller.removeAt(index);
-                            });
-                          },
-                          child: Icon(Icons.delete))
+                        onTap: () {
+                          setState(() {
+                            listcontroller[index].clear();
+                            listcontroller[index].dispose();
+                            listcontroller.removeAt(index);
+                          });
+                        },
+                        child: Icon(Icons.delete),
+                      )
                     ],
                   ),
                 );

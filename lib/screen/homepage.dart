@@ -175,7 +175,7 @@ class Screenhome extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(1)),
                 child: Image.asset(
-                  'image/BOOK$val.jpg',
+                  'assets/image/BOOK$val.jpg',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -212,7 +212,7 @@ class Screenhome extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(1)),
                 child: Image.asset(
-                  'image/MOVIE$val.jpg',
+                  'assets/image/MOVIE$val.jpg',
                   fit: BoxFit.fill,
                 ),
               ),
