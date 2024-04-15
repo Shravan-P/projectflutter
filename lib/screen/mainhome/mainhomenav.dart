@@ -6,7 +6,7 @@ import 'package:time_scheduler/screen/progresspage.dart';
 import 'package:time_scheduler/screen/schedulepage.dart';
 
 class Screenmainhome extends StatefulWidget {
-  const Screenmainhome({super.key});
+  const Screenmainhome({Key? key}) : super(key: key);
 
   @override
   State<Screenmainhome> createState() => _ScreenmainhomeState();
@@ -19,7 +19,7 @@ class _ScreenmainhomeState extends State<Screenmainhome> {
         const Screenschedule(),
         const Screenadd(),
         const Screenprogress(),
-        const Screenprofile()
+        Screenprofile()
       ];
   @override
   Widget build(BuildContext context) {
