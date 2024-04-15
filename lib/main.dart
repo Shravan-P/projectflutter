@@ -1,7 +1,13 @@
+import 'package:time_scheduler/firebase_options.dart';
+
 import './screen/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'
+    show Firebase, FirebaseOptions;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
