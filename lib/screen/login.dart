@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_scheduler/screen/mainhome/mainhomenav.dart';
 import 'package:time_scheduler/screen/signup.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Screenlogin extends StatelessWidget {
   const Screenlogin({super.key});
@@ -55,7 +56,7 @@ class Screenlogin extends StatelessWidget {
                           children: [
                             Text(
                               'Dont have an account ?',
-                              style: TextStyle(fontSize: 12),
+                              style: GoogleFonts.poppins(fontSize: 12),
                             ),
                             TextButton(
                               onPressed: () {
