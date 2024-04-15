@@ -96,7 +96,9 @@ class Screensignup extends StatelessWidget {
                           builder: (context) => Screenmainhome()));
                 },
                 style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.black, fixedSize: Size(150, 50),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.black,
+                    fixedSize: Size(150, 50),
                     textStyle: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold)),
                 child: const Text('Create'),
