@@ -172,6 +172,31 @@ class _ScreenaddState extends State<Screenadd> {
                                 Icons.delete,
                                 color: Colors.red,
                               ),
+                              hintText: 'start time',
+                              hintStyle: GoogleFonts
+                                  .poppins(), // Poppins font for hint text
+                            ),
+                            style: GoogleFonts
+                                .poppins(), // Poppins font for input text
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          height: 50,
+                          child: TextFormField(
+                            controller: listcontroller[index],
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              hintText: 'task name',
+                              hintStyle: GoogleFonts
+                                  .poppins(), // Poppins font for hint text
                             ),
                           ),
                         ],
