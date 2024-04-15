@@ -94,6 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 //),
               ],
             ),
+
           ),
           Padding(
             padding: EdgeInsets.only(top: 50, left: 20, right: 20),
@@ -106,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   textStyle: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold)),
               child: const Text('Create'),
+
             ),
           ),
         ]),
