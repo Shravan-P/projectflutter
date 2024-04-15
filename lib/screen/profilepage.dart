@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:time_scheduler/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:time_scheduler/screen/login.dart';
 
 class Screenprofile extends StatelessWidget {
-  const Screenprofile({super.key});
+  Screenprofile({Key? key}) : super(key: key);
+
+  final _auth = FirebaseAuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,15 @@ class Screenprofile extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await _auth.signout();
+              goToLogin(context);
+            },
+            icon: Icon(Icons.logout),
+          )
+        ],
       ),
       body: Container(
         color: Colors.white,
@@ -94,4 +107,7 @@ class Screenprofile extends StatelessWidget {
       ),
     );
   }
+
+  goToLogin(BuildContext context) => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => const Screenlogin()));
 }
