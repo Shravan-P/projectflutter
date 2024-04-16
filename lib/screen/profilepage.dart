@@ -17,13 +17,13 @@ class Screenprofile extends StatelessWidget {
       future: _firestore.collection('users').doc(user!.uid).get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Show loading indicator while fetching data
+          return const CircularProgressIndicator(); // Show loading indicator while fetching data
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
         if (!snapshot.hasData || snapshot.data == null) {
-          return Text(
+          return const Text(
               'No data found'); // Handle the case where no data is available
         }
 
@@ -35,48 +35,61 @@ class Screenprofile extends StatelessWidget {
             surfaceTintColor: Colors.white,
             toolbarHeight: 100,
             title: Padding(
-              padding: EdgeInsets.only(top: 48),
+              padding: const EdgeInsets.only(top: 10), // Reduce top padding
               child: Text(
                 'PROFILE',
                 style: TextStyle(
                   fontSize: 38,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Platypi',
+                  fontFamily: 'Poppins', // Change font to Poppins
                 ),
               ),
             ),
             centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () async {
-                  await _auth.signOut();
-                  goToLogin(context);
-                },
-                icon: Icon(Icons.logout),
-              )
-            ],
           ),
-          body: Container(
-            color: Colors.white,
-            alignment: Alignment.center,
-            child: SingleChildScrollView(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    verticalSpace(),
-                    verticalSpace(),
-                    profilePhoto(),
-                    verticalSpace(),
-                    verticalSpace(),
-                    profileBoxes('Username :', userData['user name']),
-                    verticalSpace(),
-                    profileBoxes('Email :', userData['email']),
-                    verticalSpace(),
-                  ],
-                ),
+          body: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(
+                  top: 10, left: 20, right: 20), // Apply padding
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  profileBoxes('Username: ', userData['user name']),
+                  verticalSpace(),
+                  profileBoxes('Email: ', userData['email']),
+                  verticalSpace(),
+                  SizedBox(
+                    width: 250, // Adjust the width of the logout button
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20), // Apply padding
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await _auth.signOut();
+                          goToLogin(context);
+                        },
+                        child: const Text(
+                          'Logout',
+                          style: TextStyle(
+                              fontSize: 18), // Increase font size if necessary
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.red,
+                          backgroundColor: Colors.white,
+                          side: const BorderSide(
+                              color: Colors.red,
+                              width: 2), // Add red border if necessary
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -86,22 +99,8 @@ class Screenprofile extends StatelessWidget {
   }
 
   SizedBox verticalSpace() {
-    return SizedBox(
-      height: 15,
-    );
-  }
-
-  Container profilePhoto() {
-    return Container(
-      height: 300,
-      width: 200,
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        child: Image.asset(
-          'assets/image/profile_photo.jpg',
-          fit: BoxFit.cover,
-        ),
-      ),
+    return const SizedBox(
+      height: 10, // Reduce vertical space
     );
   }
 
@@ -114,18 +113,24 @@ class Screenprofile extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            cardName,
-            style: TextStyle(color: Colors.white, fontSize: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Text(
+              cardName,
+              style: const TextStyle(color: Colors.white, fontSize: 15),
+            ),
           ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            cardDetails,
-            style: TextStyle(color: Colors.white, fontSize: 15),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Text(
+                cardDetails,
+                style: const TextStyle(color: Colors.white, fontSize: 15),
+                textAlign: TextAlign.left,
+              ),
+            ),
           ),
         ],
       ),
