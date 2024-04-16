@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:time_scheduler/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:time_scheduler/screen/mainhome/mainhomenav.dart';
@@ -94,7 +95,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 //),
               ],
             ),
-
           ),
           Padding(
             padding: EdgeInsets.only(top: 50, left: 20, right: 20),
@@ -107,7 +107,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   textStyle: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold)),
               child: const Text('Create'),
-
             ),
           ),
         ]),
@@ -118,11 +117,20 @@ class _SignUpPageState extends State<SignUpPage> {
   goToHome(BuildContext context) => Navigator.push(
       context, MaterialPageRoute(builder: (context) => const Screenmainhome()));
 
+  Future<void> addUserDetails(String uid, String userName, String email) async {
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'user name': userName,
+      'email': email,
+    });
+  }
+
   _signup() async {
     final user =
         await _auth.signUpWithEmailAndPassword(_email.text, _password.text);
     if (user != null) {
       log("User created successfully");
+      addUserDetails(user.uid, _username.text,
+          _email.text); // Pass user.uid as the first argument
       goToHome(context);
     }
   }
