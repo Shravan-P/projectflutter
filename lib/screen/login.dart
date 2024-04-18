@@ -147,6 +147,24 @@ class _ScreenloginState extends State<Screenlogin> {
     if (user != null) {
       log("User logged in");
       goToHome(context);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Login Failed"),
+            content: Text("The email or password you entered is incorrect."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 }
