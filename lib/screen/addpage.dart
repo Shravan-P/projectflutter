@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, avoid_unnecessary_containers
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -30,6 +32,7 @@ class _ScreenaddState extends State<Screenadd> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          padding: EdgeInsets.only(top: 15),
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -38,35 +41,48 @@ class _ScreenaddState extends State<Screenadd> {
                 height: 25,
               ),
               Text(
-                'Create Your Schedule',
-                style: GoogleFonts.poppins(
-                  fontSize: 30,
+                'CREATE YOUR SCHEDULE',
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.065,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins', // Change font to Poppins
                 ),
               ),
+              Container(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  child: Image.asset('assets/image/TM pic 2.jpg')),
               SizedBox(height: 15),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Select Date: ',
-                    style: GoogleFonts.poppins(
-                      fontSize: 15,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Select Date: ',
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            _selectDate(context);
+                          },
+                          icon: Icon(Icons.calendar_month_outlined))
+                    ],
                   ),
                   Container(
+                    alignment: Alignment.center,
+                    height: 30,
+                    width: 100,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: TextButton(
-                      onPressed: () {
-                        _selectDate(context);
-                      },
-                      child: Text(
-                        DateFormat('yyyy-MM-dd').format(_selectedDate),
-                        style: TextStyle(color: Colors.black),
-                      ),
+                    child: Text(
+                      DateFormat('yyyy-MM-dd').format(_selectedDate),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ],
@@ -85,11 +101,13 @@ class _ScreenaddState extends State<Screenadd> {
                 itemCount: listcontroller.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(top: 15),
+                    padding: EdgeInsets.only(top: 15, right: 5),
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 5),
+                          padding: EdgeInsets.only(
+                            left: 5,
+                          ),
                           child: Row(
                             children: [
                               Text('Task '),
@@ -229,45 +247,62 @@ class _ScreenaddState extends State<Screenadd> {
                 },
               ),
               SizedBox(
-                height: 15,
+                height: 25,
               ),
-              GestureDetector(
-                onTap: () {
-                  _addTask();
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
-              GestureDetector(
-                onTap: () {
-                  _saveTasks();
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 35, 130, 189),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Save',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _addTask();
+                      },
+                      child: Container(
+                          alignment: Alignment.center,
+                          height: 30,
+                          width: 80,
+                          //padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'Add +',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )),
                     ),
-                  ),
+                    SizedBox(
+                      width: 25,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _saveTasks();
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 30,
+                        width: 80,
+                        // padding:
+                        //EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
+              ),
+              SizedBox(
+                height: 50,
               )
             ],
           ),
