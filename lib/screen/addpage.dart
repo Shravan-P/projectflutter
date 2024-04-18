@@ -33,6 +33,7 @@ class _ScreenaddState extends State<Screenadd> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(top: 15),
+
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +84,7 @@ class _ScreenaddState extends State<Screenadd> {
                     child: Text(
                       DateFormat('yyyy-MM-dd').format(_selectedDate),
                       style: TextStyle(color: Colors.black),
+
                     ),
                   ),
                 ],
@@ -303,6 +305,7 @@ class _ScreenaddState extends State<Screenadd> {
               ),
               SizedBox(
                 height: 50,
+
               )
             ],
           ),
