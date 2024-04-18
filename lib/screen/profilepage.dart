@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, sort_child_properties_last, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,12 +32,13 @@ class Screenprofile extends StatelessWidget {
         var userData = snapshot.data!.data() as Map<String, dynamic>;
 
         return Scaffold(
-          appBar: AppBar(
+          /*appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
             toolbarHeight: 100,
             title: Padding(
-              padding: const EdgeInsets.only(top: 10), // Reduce top padding
+              padding: const EdgeInsets.only(top: 60), // Reduce top padding
               child: Text(
                 'PROFILE',
                 style: TextStyle(
@@ -46,46 +49,54 @@ class Screenprofile extends StatelessWidget {
               ),
             ),
             centerTitle: true,
-          ),
-          body: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(
-                  top: 10, left: 20, right: 20), // Apply padding
+          ),*/
+          body: Center(
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    'PROFILE',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins', // Change font to Poppins
+                    ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
                   profileBoxes('Username: ', userData['user name']),
                   verticalSpace(),
                   profileBoxes('Email: ', userData['email']),
                   verticalSpace(),
-                  SizedBox(
-                    width: 250, // Adjust the width of the logout button
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20), // Apply padding
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await _auth.signOut();
-                          goToLogin(context);
-                        },
-                        child: const Text(
-                          'Logout',
-                          style: TextStyle(
-                              fontSize: 18), // Increase font size if necessary
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.red,
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(
-                              color: Colors.red,
-                              width: 2), // Add red border if necessary
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                  GestureDetector(
+                    onTap: () async {
+                      await _auth.signOut();
+                      goToLogin(context);
+                    },
+                    child: Container(
+                      width: 300,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Logout',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    18), // Increase font size if necessary
                           ),
-                        ),
+                          Icon(
+                            Icons.logout,
+                            color: Colors.white,
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -110,27 +121,18 @@ class Screenprofile extends StatelessWidget {
       width: 300,
       decoration: BoxDecoration(
         color: Colors.black,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Text(
-              cardName,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
-            ),
+          Text(
+            cardName,
+            style: const TextStyle(color: Colors.white, fontSize: 15),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Text(
-                cardDetails,
-                style: const TextStyle(color: Colors.white, fontSize: 15),
-                textAlign: TextAlign.left,
-              ),
-            ),
+          Text(
+            cardDetails,
+            style: const TextStyle(color: Colors.white, fontSize: 15),
           ),
         ],
       ),
