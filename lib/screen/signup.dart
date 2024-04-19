@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -115,6 +113,26 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  void showValidationError(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Validation Error"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   goToHome(BuildContext context) => Navigator.push(
       context, MaterialPageRoute(builder: (context) => const Screenmainhome()));
 
@@ -126,6 +144,13 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   _signup() async {
+    if (_username.text.isEmpty ||
+        _email.text.isEmpty ||
+        _password.text.isEmpty) {
+      showValidationError(context, "Please fill all fields.");
+      return;
+    }
+
     final user =
         await _auth.signUpWithEmailAndPassword(_email.text, _password.text);
     if (user != null) {
