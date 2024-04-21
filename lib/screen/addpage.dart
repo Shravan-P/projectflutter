@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -322,13 +323,13 @@ class _ScreenaddState extends State<Screenadd> {
       // Task end time
       DateTime taskEndTime = currentDateTime.add(Duration(minutes: 60));
       schedule +=
-          '${DateFormat('hh:mm a').format(taskEndTime)}: Task: ${taskNames[i]}\n';
+          '${DateFormat('hh:mm a').format(taskEndTime)}:\nTask: ${taskNames[i]}\n';
 
       // Insert mindful exercise before each task except the last one
       if (i < numMindfulExercises) {
         // Duration for mindful exercise in minutes
         schedule +=
-            'Mindful exercise (5 or 10 mins): ${_randomMindfulExercise()}\n\n';
+            '\nMindful exercise (5 or 10 mins):\n${_randomMindfulExercise()}\n\n';
 
         // Adjust currentDateTime for the next task or exercise
         currentDateTime = taskEndTime.add(Duration(minutes: exerciseTimes[i]));
@@ -337,18 +338,21 @@ class _ScreenaddState extends State<Screenadd> {
         if (i == taskNames.length - 1 &&
             totalDuration.inMinutes - totalRequiredTime > 0) {
           schedule +=
-              'You have completed all tasks. Enjoy the rest of the day doing things you like. You spent the day productively.';
+              '\nYou have completed all tasks.\nEnjoy the rest of the day doing things you like.\nYou have spent the day productively.';
         }
       }
     }
 
+    // Get the current user's email
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final userEmail = currentUser?.email;
+
     // Show success dialog
     _showScheduleDialog(schedule);
 
-    // Navigate to SchedulePage with the generated schedule
-
     // Save the schedule to Firestore
     await FirebaseFirestore.instance.collection('schedules').add({
+      'userEmail': userEmail,
       'date': _selectedDate,
       'schedule': schedule,
     });
@@ -361,15 +365,20 @@ class _ScreenaddState extends State<Screenadd> {
   String _randomMindfulExercise() {
     List<String> mindfulExercises = [
       'Deep Breathing',
-      'Mindful Stretching',
-      'Mindful Walking',
-      'Quick Meditation',
-      'Mindful Eating',
-      'Visualization',
-      'Gratitude Practice',
-      'Progressive Muscle Relaxation',
-      'Breath Counting',
-      'Desk Yoga',
+      'Play the sound game: Listen to the world around you. Identify eight sounds you hear, either from inside your body, in the room, or somewhere in the distance.',
+      'Ground your feet: Place your feet flat on the ground — (even if you’re sitting). Inhale for three seconds, then exhale for three seconds. Concentrate on your breathing and your connection to the floor beneath your feet. ',
+      'Practice introspection: Take a minute to sit still and evaluate each of your emotions in silence. Note which emotions are stronger. Ask yourself, "What do I feel?" rather than, "Why do I feel this way?" Be curious about your thoughts and emotions.',
+      'Play the chime game: Do you have a bell or something that will make a light noise? Find a quiet spot and ring it only once; focus on the sound of the chime and listen until you cannot hear it anymore.',
+      'Practice stillness: Staying still helps to slow you down. Focusing on one specific image or thought for as long as possible can help you sit still and calm down. ',
+      'Follow your breathing: Deep breathing is one thing, but have you ever paid attention to how your body feels as your breath travels through your body? Find a comfortable position and slowly take a breath. Follow each breath. Notice where it starts, how it feels coming in through your nose, filling your chest, and exiting through your mouth. ',
+      'Eat slowly: Challenge yourself to take 30 seconds to savor something like a strawberry or piece of chocolate. Acknowledge the smell, taste, and how it feels as you chew it.',
+      'Play the name game: Look around your environment. Name three things you see, two you hear, and one you feel. This helps you become more aware of your surroundings.',
+      'Walk outside: Sometimes, some fresh air is exactly what you need. If you can, go for a self-reflective walk or even just stick your head out a window. Let the fresh air seep into your lungs.',
+      'Coloring and drawing: Try doodling on a blank page or coloring in a coloring book. This activity doesn’t have any rules, so have fun with it.',
+      'Coloring and drawing: Try doodling on a blank page or coloring in a coloring book. This activity doesn’t have any rules, so have fun with it.',
+      'Music therapy: Make or find a playlist of songs that are relaxing and easy to listen to. They do not have to only be classical or instrumental music either. These songs should help refocus your thoughts — the genre is up to you.',
+      'Do a full-body scan: Get into a comfortable position, sitting or standing, and examine your body from head to toe. Check for pain, tingles, or even relaxing sensations. See if anywhere is sore and if you can relax those muscles.',
+      'Box breathing technique: Box breathing is a breathing exercise where you breathe in for four counts, hold your breath for four counts, then breathe out for four counts. Hold that for four seconds, and start over. Draw a box in your mind as you count to stay grounded — four seconds per side.',
     ];
     Random random = Random();
     return mindfulExercises[random.nextInt(mindfulExercises.length)];
