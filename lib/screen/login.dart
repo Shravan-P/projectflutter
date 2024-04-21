@@ -86,6 +86,8 @@ class _ScreenloginState extends State<Screenlogin> {
                         const SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.all(10),
+
+       
                           child: ElevatedButton(
                             onPressed: _login,
                             style: ElevatedButton.styleFrom(
@@ -101,11 +103,15 @@ class _ScreenloginState extends State<Screenlogin> {
                           ),
                         ),
                         const SizedBox(height: 0),
+                       
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
+
                               'Don\'t have an account?',
+
                               style: GoogleFonts.poppins(fontSize: 13),
                             ),
                             TextButton(
