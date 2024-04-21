@@ -85,7 +85,7 @@ class _ScreenloginState extends State<Screenlogin> {
                         ),
                         const SizedBox(height: 20),
                         Padding(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(10),
                           child: ElevatedButton(
                             onPressed: _login,
                             style: ElevatedButton.styleFrom(
