@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:time_scheduler/constants.dart';
 import 'package:time_scheduler/screen/schedulepage.dart';
 
 class Screenadd extends StatefulWidget {
