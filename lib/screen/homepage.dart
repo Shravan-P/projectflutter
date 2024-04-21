@@ -58,13 +58,16 @@ class _ScreenhomeState extends State<Screenhome> {
           children: [
             Row(
               children: [
-                Text(
+
+                const Text(
+
                   'Hi, ',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 Text(
                   _userName,
-                  style: TextStyle(
+
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -125,6 +128,7 @@ class _ScreenhomeState extends State<Screenhome> {
                           'Books',
                           style: TextStyle(fontSize: 20),
                         ),
+
                       ),
                       SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
@@ -163,6 +167,7 @@ class _ScreenhomeState extends State<Screenhome> {
                           'Movies',
                           style: TextStyle(fontSize: 20),
                         ),
+
                       ),
                       SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),

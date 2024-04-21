@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, avoid_unnecessary_containers
+import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class Screenadd extends StatefulWidget {
@@ -14,301 +12,179 @@ class Screenadd extends StatefulWidget {
 }
 
 class _ScreenaddState extends State<Screenadd> {
-  List<TextEditingController> listcontroller = [TextEditingController()];
-  late DateTime _selectedDate;
-  late TimeOfDay _startTime;
-  late TimeOfDay _endTime;
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay? _startTime;
+  TimeOfDay? _endTime;
+  List<String> taskNames = [];
+  final List<TextEditingController> _controllers = [];
+  String? generatedSchedule; // Add this line
+  bool isLoading = false; // Add this line
 
   @override
-  void initState() {
-    super.initState();
-    _selectedDate = DateTime.now();
-    _startTime = TimeOfDay.now();
-    _endTime = TimeOfDay.now();
+  void dispose() {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Generate Schedule'),
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(top: 15),
-
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 25,
-              ),
-              Text(
-                'CREATE YOUR SCHEDULE',
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.065,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins', // Change font to Poppins
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Select Date:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    _selectDate(context);
+                  },
+                  icon: Icon(Icons.calendar_today),
                 ),
-              ),
-              Container(
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  child: Image.asset('assets/image/TM pic 2.jpg')),
-              SizedBox(height: 15),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                Text(
+                  DateFormat('yyyy-MM-dd').format(_selectedDate),
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Select Date: ',
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
+                        'Select Start Time:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          _selectStartTime(context);
+                        },
+                        child: Text(
+                          _startTime != null
+                              ? _startTime!.format(context)
+                              : 'Select Time',
+                          style: TextStyle(fontSize: 18),
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            _selectDate(context);
-                          },
-                          icon: Icon(Icons.calendar_month_outlined))
                     ],
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 30,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      DateFormat('yyyy-MM-dd').format(_selectedDate),
-                      style: TextStyle(color: Colors.black),
-
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              Text(
-                'Tasks',
-                style: GoogleFonts.poppins(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
                 ),
-              ),
-              ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                shrinkWrap: true,
-                itemCount: listcontroller.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 15, right: 5),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 5,
-                          ),
-                          child: Row(
-                            children: [
-                              Text('Task '),
-                              Text((index + 1).toString()),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          height: 50,
-                                          child: TextFormField(
-                                            controller: listcontroller[index],
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
-                                              ),
-                                              hintText: 'Start Time',
-                                              hintStyle: GoogleFonts
-                                                  .poppins(), // Poppins font for hint text
-                                            ),
-                                            style: GoogleFonts
-                                                .poppins(), // Poppins font for input text
-                                            onTap: () {
-                                              _selectStartTime(context, index);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          height: 50,
-                                          child: TextFormField(
-                                            controller: listcontroller[index],
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
-                                              ),
-                                              hintText: 'End Time',
-                                              hintStyle: GoogleFonts
-                                                  .poppins(), // Poppins font for hint text
-                                            ),
-                                            style: GoogleFonts
-                                                .poppins(), // Poppins font for input text
-                                            onTap: () {
-                                              _selectEndTime(context, index);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          height: 50,
-                                          child: TextFormField(
-                                            controller: listcontroller[index],
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                                borderSide: BorderSide(
-                                                    color: Colors.black),
-                                              ),
-                                              hintText: 'task name',
-                                              hintStyle: GoogleFonts
-                                                  .poppins(), // Poppins font for hint text
-                                            ),
-                                            style: GoogleFonts
-                                                .poppins(), // Poppins font for input text
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Container(
-                              height: 110,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    listcontroller[index].clear();
-                                    listcontroller[index].dispose();
-                                    listcontroller.removeAt(index);
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        _addTask();
-                      },
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 30,
-                          width: 80,
-                          //padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            'Add +',
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                          )),
-                    ),
-                    SizedBox(
-                      width: 25,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        _saveTasks();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 30,
-                        width: 80,
-                        // padding:
-                        //EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Select End Time:',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          _selectEndTime(context);
+                        },
                         child: Text(
-                          'Save',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
+                          _endTime != null
+                              ? _endTime!.format(context)
+                              : 'Select Time',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Tasks:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: taskNames.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 13),
+                        child: TextFormField(
+                          controller: _controllers[index],
+                          decoration: InputDecoration(
+                            labelText: 'Task Name',
+                            border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _deleteTask(index);
+                      },
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      color: Colors.red,
+                    ),
                   ],
+                );
+              },
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _addTask();
+                  },
+                  child: Icon(Icons.add, color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    backgroundColor: Colors.green,
+                    padding: EdgeInsets.all(5),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  _saveAndGenerateSchedule();
+                },
+                child: Text(
+                  'Generate',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 6, 78, 136),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 50,
-
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -328,39 +204,252 @@ class _ScreenaddState extends State<Screenadd> {
     }
   }
 
-  Future<void> _selectStartTime(BuildContext context, int index) async {
-    final TimeOfDay? startTime = await showTimePicker(
+  Future<void> _selectStartTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (startTime != null) {
+    if (picked != null) {
       setState(() {
-        _startTime = startTime;
-        listcontroller[index].text = '${_startTime.hour}:${_startTime.minute}';
+        _startTime = picked;
       });
     }
   }
 
-  Future<void> _selectEndTime(BuildContext context, int index) async {
-    final TimeOfDay? endTime = await showTimePicker(
+  Future<void> _selectEndTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (endTime != null) {
+    if (picked != null) {
       setState(() {
-        _endTime = endTime;
-        listcontroller[index].text = '${_endTime.hour}:${_endTime.minute}';
+        _endTime = picked;
       });
     }
   }
 
   void _addTask() {
     setState(() {
-      listcontroller.add(TextEditingController());
+      TextEditingController controller = TextEditingController();
+      controller.addListener(() {
+        final index = _controllers.indexOf(controller);
+        if (index != -1 && index < taskNames.length) {
+          taskNames[index] =
+              controller.text; // Update the corresponding task name
+        }
+      });
+      _controllers.add(controller);
+      taskNames.add(''); // Add an empty task name
     });
   }
 
-  void _saveTasks() {
-    // Implement saving tasks logic here
+  void _deleteTask(int index) {
+    setState(() {
+      if (index >= 0 && index < taskNames.length) {
+        _controllers[index].dispose(); // Dispose of the controller
+        _controllers.removeAt(index);
+        taskNames.removeAt(index);
+      }
+    });
+  }
+
+  void _saveAndGenerateSchedule() async {
+    if (_selectedDate == null ||
+        _startTime == null ||
+        _endTime == null ||
+        taskNames.isEmpty) {
+      _showValidationError('Please fill in all the fields.');
+      return;
+    }
+
+    // Convert TimeOfDay to DateTime for comparison
+    DateTime startDateTime = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _startTime!.hour,
+      _startTime!.minute,
+    );
+    DateTime endDateTime = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _endTime!.hour,
+      _endTime!.minute,
+    );
+
+    if (endDateTime.isBefore(startDateTime)) {
+      _showValidationError('End time must be after start time.');
+      return;
+    }
+
+    // Calculate the total duration available for tasks
+    Duration totalDuration = endDateTime.difference(startDateTime);
+
+    // Calculate the total time needed for all tasks and mindful exercises
+    int totalTaskTime = taskNames.length * 60; // 1 hour per task
+    int totalMindfulExerciseTime =
+        taskNames.length * 5; // 5 minutes per exercise
+    int totalRequiredTime = totalTaskTime + totalMindfulExerciseTime;
+
+    // Check if there's enough time for all tasks and mindful exercises
+    if (totalRequiredTime > totalDuration.inMinutes) {
+      _showValidationError(
+          'Not enough time for all tasks and mindful exercises.');
+      return;
+    }
+
+    // Calculate the number of mindful exercises needed
+    int numMindfulExercises = taskNames.length - 1;
+
+    // Generate random times for mindful exercises
+    List<int> exerciseTimes = [];
+    Random random = Random();
+    for (int i = 0; i < numMindfulExercises; i++) {
+      int randomMinutes =
+          random.nextInt(totalDuration.inMinutes - totalRequiredTime);
+      exerciseTimes.add(randomMinutes);
+    }
+    exerciseTimes.sort();
+
+    // Generate the schedule
+    String schedule = '';
+    DateTime currentDateTime = startDateTime;
+    for (int i = 0; i < taskNames.length; i++) {
+      // Task start time
+      schedule += '${DateFormat('hh:mm a').format(currentDateTime)} - ';
+
+      // Task end time
+      DateTime taskEndTime = currentDateTime.add(Duration(minutes: 60));
+      schedule +=
+          '${DateFormat('hh:mm a').format(taskEndTime)}: Task: ${taskNames[i]}\n';
+
+      // Insert mindful exercise before each task except the last one
+      if (i < numMindfulExercises) {
+        // Duration for mindful exercise in minutes
+        schedule +=
+            'Mindful exercise (5 or 10 mins): ${_randomMindfulExercise()}\n\n';
+
+        // Adjust currentDateTime for the next task or exercise
+        currentDateTime = taskEndTime.add(Duration(minutes: exerciseTimes[i]));
+      } else {
+        // If this is the last task, check if there's extra time available
+        if (i == taskNames.length - 1 &&
+            totalDuration.inMinutes - totalRequiredTime > 0) {
+          schedule +=
+              'You have completed all tasks. Enjoy the rest of the day doing things you like. You spent the day productively.';
+        }
+      }
+    }
+
+    // Show success dialog
+    _showScheduleDialog(schedule);
+
+    // Navigate to SchedulePage with the generated schedule
+
+    // Save the schedule to Firestore
+    await FirebaseFirestore.instance.collection('schedules').add({
+      'date': _selectedDate,
+      'schedule': schedule,
+    });
+
+    // Reset the screen to default state
+    _resetState();
+  }
+
+// Helper function to select a random mindful exercise
+  String _randomMindfulExercise() {
+    List<String> mindfulExercises = [
+      'Deep Breathing',
+      'Mindful Stretching',
+      'Mindful Walking',
+      'Quick Meditation',
+      'Mindful Eating',
+      'Visualization',
+      'Gratitude Practice',
+      'Progressive Muscle Relaxation',
+      'Breath Counting',
+      'Desk Yoga',
+    ];
+    Random random = Random();
+    return mindfulExercises[random.nextInt(mindfulExercises.length)];
+  }
+
+  void _showValidationError(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Validation Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showScheduleDialog(String schedule) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('Schedule generated successfully'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _resetState() {
+    setState(() {
+      _selectedDate = DateTime.now();
+      _startTime = null;
+      _endTime = null;
+      taskNames.clear();
+      _controllers.forEach((controller) => controller.clear());
+      _controllers.clear();
+    });
+  }
+
+  String _formatTimeOfDay(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    final dateTime = DateTime(
+        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    return DateFormat.Hm().format(dateTime);
   }
 }

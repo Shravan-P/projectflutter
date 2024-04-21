@@ -16,7 +16,7 @@ class _ScreenmainhomeState extends State<Screenmainhome> {
   int _currentSelectedindex = 0;
   get _pages => [
         const Screenhome(),
-        const Screenschedule(),
+        SchedulePage(),
         const Screenadd(),
         const Screenprogress(),
         Screenprofile()
