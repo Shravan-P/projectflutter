@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,10 +18,16 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Future<List<DocumentSnapshot>> _fetchSchedules() async {
+    // Get the currently logged user's email
+    final currentUserEmail = FirebaseAuth.instance.currentUser!.email;
+
+    // Query schedules where userEmail matches the currently logged user's email
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('schedules')
+        .where('userEmail', isEqualTo: currentUserEmail)
         .orderBy('date', descending: true)
         .get();
+
     return snapshot.docs;
   }
 
@@ -128,13 +135,14 @@ class IndividualSchedulePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: Icon(Icons.delete,
+                color: Colors.red), // Set delete icon color to red
             onPressed: onDelete,
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
