@@ -4,10 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:time_scheduler/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:time_scheduler/screen/mainhome/mainhomenav.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key});
+  const SignUpPage({super.key, Key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -27,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 70),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 70),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -38,14 +37,14 @@ class _SignUpPageState extends State<SignUpPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 13),
+                  const SizedBox(height: 13),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: [
                         TextFormField(
                           controller: _username,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Username',
                             hintStyle: TextStyle(color: Colors.grey),
                             enabledBorder: UnderlineInputBorder(
@@ -59,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(height: 15),
                         TextFormField(
                           controller: _email,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Email',
                             hintStyle: TextStyle(color: Colors.grey),
                             enabledBorder: UnderlineInputBorder(
@@ -74,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         TextFormField(
                           controller: _password,
                           obscureText: true,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Password',
                             hintStyle: TextStyle(color: Colors.grey),
                             enabledBorder: UnderlineInputBorder(
@@ -89,13 +88,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: ElevatedButton(
                       onPressed: _signup,
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: Colors.black,
-                        fixedSize: Size(200, 50),
+                        fixedSize: const Size(200, 50),
                         textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -118,14 +117,14 @@ class _SignUpPageState extends State<SignUpPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Validation Error"),
+          title: const Text("Validation Error"),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );

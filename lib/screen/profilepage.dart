@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, sort_child_properties_last, prefer_const_literals_to_create_immutables, use_build_context_synchronously
-
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BorderRadius, BoxDecoration, BuildContext, Center, CircularProgressIndicator, Colors, Column, ConnectionState, Container, CrossAxisAlignment, FontWeight, FutureBuilder, GestureDetector, Icon, Icons, Key, MainAxisAlignment, MaterialPageRoute, Navigator, Row, Scaffold, SingleChildScrollView, SizedBox, StatelessWidget, Text, TextStyle, Widget;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:time_scheduler/screen/login.dart';
