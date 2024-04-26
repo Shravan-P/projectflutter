@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Screenhome extends StatefulWidget {
   const Screenhome({Key? key}) : super(key: key);
@@ -136,11 +138,14 @@ class _ScreenhomeState extends State<Screenhome> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            listBook('1', 'Author Your Life'),
-                            listBook('2', 'Its how you finish'),
-                            listBook('3', 'You deserve this shit'),
-                            listBook('4', 'Good day start with knowledge'),
-                            listBook('5', 'Make your own happiness'),
+                            listBook('1', 'Author Your Life',''),
+                            listBook('2', 'Its how you finish',''),
+                            listBook('3', 'You deserve this shit',''),
+                            listBook('4', 'Good day start with knowledge',''),
+                            listBook('5', 'Make your own happiness','https://www.amazon.in/Make-Your-Own-Happiness-Depression/dp/1799023362'),
+                            listBook('6', 'You Can Win','https://vidyaprabodhinicollege.edu.in/VPCCECM/Documents/Library/Books/You%20Can%20Win.pdf'),
+                            listBook('7', 'Atomic Habits','https://dn790007.ca.archive.org/0/items/atomic-habits-pdfdrive/Atomic%20habits%20%28%20PDFDrive%20%29.pdf'),
+                            
                           ],
                         ),
                       ),
@@ -175,9 +180,14 @@ class _ScreenhomeState extends State<Screenhome> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            listMovie('1', 'Movie 1'),
-                            listMovie('2', 'Movie 2'),
-                            listMovie('3', 'Movie 3'),
+                            listMovie('1', 'Pursuite of Happiness','https://www.imdb.com/title/tt0454921/'),
+                            listMovie('2', 'Shawshank Redemption','https://www.imdb.com/title/tt0111161/'),
+                            listMovie('3', '12th Fail','https://www.imdb.com/title/tt23849204/'),
+                            listMovie('4', 'Imitation game','https://www.imdb.com/title/tt2084970/'),
+                            listMovie('5', 'The Social Network','https://www.imdb.com/title/tt1285016/'),
+                            listMovie('6', 'Million Dollar Arm','https://www.imdb.com/title/tt1647668/'),
+                            listMovie('7', 'Soorarai Pottru','https://www.imdb.com/title/tt10189514/'),
+                           
                             // Add more movie entries as needed
                           ],
                         ),
@@ -193,7 +203,7 @@ class _ScreenhomeState extends State<Screenhome> {
     );
   }
 
-  Padding listBook(String val, String name) {
+  Padding listBook(String val, String name,String websiteUrl) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
@@ -203,14 +213,19 @@ class _ScreenhomeState extends State<Screenhome> {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: 140,
-              width: 90,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(1)),
-                child: Image.asset(
-                  'assets/image/BOOK$val.jpg',
-                  fit: BoxFit.fill,
+            GestureDetector(
+               onTap: () {
+              _launchURL(websiteUrl);
+            },
+              child: SizedBox(
+                height: 140,
+                width: 90,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(1)),
+                  child: Image.asset(
+                    'assets/image/BOOK$val.jpg',
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -230,7 +245,7 @@ class _ScreenhomeState extends State<Screenhome> {
     );
   }
 
-  Padding listMovie(String val, String name) {
+  Padding listMovie(String val, String name,String websiteUrl) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
@@ -240,14 +255,19 @@ class _ScreenhomeState extends State<Screenhome> {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: 140,
-              width: 90,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(1)),
-                child: Image.asset(
-                  'assets/image/MOVIE$val.jpg',
-                  fit: BoxFit.fill,
+            GestureDetector(
+               onTap: () {
+              _launchURL(websiteUrl);
+            },
+              child: SizedBox(
+                height: 140,
+                width: 90,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(1)),
+                  child: Image.asset(
+                    'assets/image/MOVIE$val.jpg',
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -265,5 +285,12 @@ class _ScreenhomeState extends State<Screenhome> {
         ),
       ),
     );
+  }
+}
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
