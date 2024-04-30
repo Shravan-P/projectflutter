@@ -364,7 +364,7 @@ class _ScreenaddState extends State<Screenadd> {
 // Helper function to select a random mindful exercise
   String _randomMindfulExercise() {
     List<String> mindfulExercises = [
-      'Deep Breathing',
+      'Deep Breathing: Breathe in deeply and slowly through your nose, expanding your lower rib cage, and letting your abdomen (belly) move forward.Hold for a count of 3 to 5.Breathe out slowly and completely through pursed lips. Do not force your breath out.',
       'Play the sound game: Listen to the world around you. Identify eight sounds you hear, either from inside your body, in the room, or somewhere in the distance.',
       'Ground your feet: Place your feet flat on the ground — (even if you’re sitting). Inhale for three seconds, then exhale for three seconds. Concentrate on your breathing and your connection to the floor beneath your feet. ',
       'Practice introspection: Take a minute to sit still and evaluate each of your emotions in silence. Note which emotions are stronger. Ask yourself, "What do I feel?" rather than, "Why do I feel this way?" Be curious about your thoughts and emotions.',
