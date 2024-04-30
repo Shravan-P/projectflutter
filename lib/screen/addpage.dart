@@ -33,46 +33,46 @@ class _ScreenaddState extends State<Screenadd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Generate Schedule'),
+        title: const Text('Generate Schedule'),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select Date:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 IconButton(
                   onPressed: () {
                     _selectDate(context);
                   },
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                 ),
                 Text(
                   DateFormat('yyyy-MM-dd').format(_selectedDate),
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Select Start Time:',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () {
                           _selectStartTime(context);
@@ -81,23 +81,23 @@ class _ScreenaddState extends State<Screenadd> {
                           _startTime != null
                               ? _startTime!.format(context)
                               : 'Select Time',
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Select End Time:',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () {
                           _selectEndTime(context);
@@ -106,7 +106,7 @@ class _ScreenaddState extends State<Screenadd> {
                           _endTime != null
                               ? _endTime!.format(context)
                               : 'Select Time',
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
                     ],
@@ -114,12 +114,12 @@ class _ScreenaddState extends State<Screenadd> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Tasks:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ListView.builder(
               shrinkWrap: true,
               itemCount: taskNames.length,
@@ -128,10 +128,10 @@ class _ScreenaddState extends State<Screenadd> {
                   children: [
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 13),
+                        margin: const EdgeInsets.only(bottom: 13),
                         child: TextFormField(
                           controller: _controllers[index],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Task Name',
                             border: OutlineInputBorder(),
                           ),
@@ -142,14 +142,14 @@ class _ScreenaddState extends State<Screenadd> {
                       onPressed: () {
                         _deleteTask(index);
                       },
-                      icon: Icon(Icons.delete, color: Colors.red),
+                      icon: const Icon(Icons.delete, color: Colors.red),
                       color: Colors.red,
                     ),
                   ],
                 );
               },
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -157,31 +157,31 @@ class _ScreenaddState extends State<Screenadd> {
                   onPressed: () {
                     _addTask();
                   },
-                  child: Icon(Icons.add, color: Colors.white),
                   style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                   ),
+                  child: const Icon(Icons.add, color: Colors.white),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Center(
               child: ElevatedButton(
                 onPressed: () {
                   _saveAndGenerateSchedule();
                 },
-                child: Text(
-                  'Generate',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 6, 78, 136),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                ),
+                child: const Text(
+                  'Generate',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),
@@ -255,8 +255,7 @@ class _ScreenaddState extends State<Screenadd> {
   }
 
   void _saveAndGenerateSchedule() async {
-    if (_selectedDate == null ||
-        _startTime == null ||
+    if (_startTime == null ||
         _endTime == null ||
         taskNames.isEmpty) {
       _showValidationError('Please fill in all the fields.');
@@ -321,7 +320,7 @@ class _ScreenaddState extends State<Screenadd> {
       schedule += '${DateFormat('hh:mm a').format(currentDateTime)} - ';
 
       // Task end time
-      DateTime taskEndTime = currentDateTime.add(Duration(minutes: 60));
+      DateTime taskEndTime = currentDateTime.add(const Duration(minutes: 60));
       schedule +=
           '${DateFormat('hh:mm a').format(taskEndTime)}:\nTask: ${taskNames[i]}\n';
 
@@ -389,14 +388,14 @@ class _ScreenaddState extends State<Screenadd> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Validation Error'),
+          title: const Text('Validation Error'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -409,14 +408,14 @@ class _ScreenaddState extends State<Screenadd> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Success'),
-          content: Text('Schedule generated successfully'),
+          title: const Text('Success'),
+          content: const Text('Schedule generated successfully'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -429,14 +428,14 @@ class _ScreenaddState extends State<Screenadd> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -450,7 +449,9 @@ class _ScreenaddState extends State<Screenadd> {
       _startTime = null;
       _endTime = null;
       taskNames.clear();
-      _controllers.forEach((controller) => controller.clear());
+      for (var controller in _controllers) {
+        controller.clear();
+      }
       _controllers.clear();
     });
   }

@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SchedulePage extends StatefulWidget {
+  const SchedulePage({super.key});
+
   @override
   _SchedulePageState createState() => _SchedulePageState();
 }
@@ -43,14 +45,14 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Generated Schedules'),
+        title: const Text('Generated Schedules'),
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<List<DocumentSnapshot>>(
         future: _schedulesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
@@ -75,8 +77,8 @@ class _SchedulePageState extends State<SchedulePage> {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.all(15),
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.blue[50],
                       borderRadius: BorderRadius.circular(10),
@@ -86,12 +88,12 @@ class _SchedulePageState extends State<SchedulePage> {
                       children: [
                         Text(
                           DateFormat('MMMM dd, yyyy').format(date.toDate()),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Tap to view schedule',
                           style: TextStyle(
@@ -126,7 +128,7 @@ class IndividualSchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Individual Schedule',
           style: TextStyle(
             fontSize: 22,
@@ -135,7 +137,7 @@ class IndividualSchedulePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete,
+            icon: const Icon(Icons.delete,
                 color: Colors.red), // Set delete icon color to red
             onPressed: onDelete,
           ),
@@ -146,19 +148,19 @@ class IndividualSchedulePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Your Schedule',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
                 child: Text(
                   schedule,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                   ),
                 ),
