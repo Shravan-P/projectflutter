@@ -174,7 +174,8 @@ class _ScreenaddState extends State<Screenadd> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 6, 78, 136),
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -255,9 +256,7 @@ class _ScreenaddState extends State<Screenadd> {
   }
 
   void _saveAndGenerateSchedule() async {
-    if (_startTime == null ||
-        _endTime == null ||
-        taskNames.isEmpty) {
+    if (_startTime == null || _endTime == null || taskNames.isEmpty) {
       _showValidationError('Please fill in all the fields.');
       return;
     }
@@ -289,7 +288,7 @@ class _ScreenaddState extends State<Screenadd> {
     // Calculate the total time needed for all tasks and mindful exercises
     int totalTaskTime = taskNames.length * 60; // 1 hour per task
     int totalMindfulExerciseTime =
-        taskNames.length * 5; // 5 minutes per exercise
+        taskNames.length * 15; // 15 minutes per exercise
     int totalRequiredTime = totalTaskTime + totalMindfulExerciseTime;
 
     // Check if there's enough time for all tasks and mindful exercises
@@ -300,17 +299,11 @@ class _ScreenaddState extends State<Screenadd> {
     }
 
     // Calculate the number of mindful exercises needed
-    int numMindfulExercises = taskNames.length - 1;
+    int numMindfulExercises = taskNames.length;
 
-    // Generate random times for mindful exercises
-    List<int> exerciseTimes = [];
-    Random random = Random();
-    for (int i = 0; i < numMindfulExercises; i++) {
-      int randomMinutes =
-          random.nextInt(totalDuration.inMinutes - totalRequiredTime);
-      exerciseTimes.add(randomMinutes);
-    }
-    exerciseTimes.sort();
+    // Calculate the time interval between tasks and exercises
+    int interval =
+        (totalDuration.inMinutes - totalRequiredTime) ~/ numMindfulExercises;
 
     // Generate the schedule
     String schedule = '';
@@ -324,18 +317,17 @@ class _ScreenaddState extends State<Screenadd> {
       schedule +=
           '${DateFormat('hh:mm a').format(taskEndTime)}:\nTask: ${taskNames[i]}\n';
 
-      // Insert mindful exercise before each task except the last one
-      if (i < numMindfulExercises) {
+      // Insert mindful exercise after each task except the last one
+      if (i < taskNames.length - 1) {
         // Duration for mindful exercise in minutes
         schedule +=
-            '\nMindful exercise (5 or 10 mins):\n${_randomMindfulExercise()}\n\n';
+            '\nMindful exercise (10 or 15 mins):\n${_randomMindfulExercise()}\n\n';
 
         // Adjust currentDateTime for the next task or exercise
-        currentDateTime = taskEndTime.add(Duration(minutes: exerciseTimes[i]));
+        currentDateTime = taskEndTime.add(Duration(minutes: interval));
       } else {
         // If this is the last task, check if there's extra time available
-        if (i == taskNames.length - 1 &&
-            totalDuration.inMinutes - totalRequiredTime > 0) {
+        if (totalDuration.inMinutes - totalRequiredTime > 0) {
           schedule +=
               '\nYou have completed all tasks.\nEnjoy the rest of the day doing things you like.\nYou have spent the day productively.';
         }
